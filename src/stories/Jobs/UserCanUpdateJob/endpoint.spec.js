@@ -76,7 +76,7 @@ describe("Test API Jobs/UserCanUpdateJob", () => {
 
       respondResult = await app.inject({
         method: "PUT",
-        url: `/job/${testQuery.uuid}`,
+        url: `/jobs/${testQuery.uuid}`,
         payload,
         headers: contextClassRef.headers,
       });

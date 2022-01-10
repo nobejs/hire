@@ -10,13 +10,13 @@ module.exports = (app) => {
   return [
     {
       endpoints: [
-        ["post", "/job", "Jobs/UserCanPostJob"],
-        ["put", "/job/:uuid", "Jobs/UserCanUpdateJob"],
+        ["post", "/jobs", "Jobs/UserCanPostJob"],
+        ["put", "/jobs/:uuid", "Jobs/UserCanUpdateJob"],
         ["get", "/jobs", "Jobs/UserCanViewAllJobs"],
-        ["get", "/job/:uuid", "Jobs/UserCanViewJob"],
-        ["post", "/portfolio", "Applicants/UserCanCreatePortfolio"],
+        ["get", "/jobs/:uuid", "Jobs/UserCanViewJob"],
+        ["post", "/portfolios", "Applicants/UserCanCreatePortfolio"],
         ["get", "/applicants", "Applicants/UserCanViewApplicants"],
-        ["get", "/applicant/:uuid", "Applicants/UserCanViewApplicant"],
+        ["get", "/applicants/:uuid", "Applicants/UserCanViewApplicant"],
       ],
     },
   ];

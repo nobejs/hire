@@ -47,7 +47,7 @@ describe("Test API Jobs/UserCanPostJob", () => {
 
       respondResult = await app.inject({
         method: "POST",
-        url: "/job",
+        url: "/jobs",
         payload,
         headers: contextClassRef.headers,
       });
@@ -66,7 +66,7 @@ describe("Test API Jobs/UserCanPostJob", () => {
         country: "India",
         city: "Hyderabad",
       },
-      description: "",
+      description: null,
       requirements_attachments: [],
       top_skills: ["React JS", "Node JS"],
       employment_type: "private",
@@ -82,7 +82,7 @@ describe("Test API Jobs/UserCanPostJob", () => {
       industry: "IT - Information Technology",
       specialization_area: "SAP, Web Development",
       notice_period_acceptance: "1 Week",
-      note_for_applicants: "",
+      note_for_applicants: null,
       applicants: [],
     });
   });

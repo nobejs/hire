@@ -48,7 +48,7 @@ describe("Test API Jobs/UserCanViewJob", () => {
 
       respondResult = await app.inject({
         method: "GET",
-        url: `/job/${testQuery.uuid}`,
+        url: `/jobs/${testQuery.uuid}`,
         headers: contextClassRef.headers,
       });
     } catch (error) {

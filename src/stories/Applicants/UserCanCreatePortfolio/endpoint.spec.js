@@ -50,7 +50,7 @@ describe("Test API Applicants/UserCanCreatePortfolio", () => {
 
       respondResult = await app.inject({
         method: "POST",
-        url: "/portfolio",
+        url: "/portfolios",
         payload,
         headers: contextClassRef.headers,
       });
@@ -80,7 +80,7 @@ describe("Test API Applicants/UserCanCreatePortfolio", () => {
       specialization_area:
         "Full stack web developement, Application Developement",
       top_skills: ["Node Js", "React Js", "Next Js"],
-      achievements: "",
+      achievements: null,
       current_location: {
         country: "India",
         city: "Hyderabad",

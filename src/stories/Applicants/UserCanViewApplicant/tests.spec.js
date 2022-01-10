@@ -13,7 +13,7 @@ describe("Test Handler Applicants/UserCanViewApplicant", () => {
         Authorization: `Bearer ${contextClassRef.user.token}`,
       };
 
-      const testQuery = await JobsRepo.create({
+      const testQuery = await ApplicantsRepo.create({
         user_uuid: contextClassRef.user.user_uuid,
         full_name: "Amarendra Varma",
         gender: "Male",
