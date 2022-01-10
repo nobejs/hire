@@ -9,7 +9,15 @@ module.exports = (app) => {
 
   return [
     {
-      endpoints: [],
+      endpoints: [
+        ["post", "/job", "Jobs/UserCanPostJob"],
+        ["put", "/job/:uuid", "Jobs/UserCanUpdateJob"],
+        ["get", "/jobs", "Jobs/UserCanViewAllJobs"],
+        ["get", "/job/:uuid", "Jobs/UserCanViewJob"],
+        ["post", "/portfolio", "Applicants/UserCanCreatePortfolio"],
+        ["get", "/applicants", "Applicants/UserCanViewApplicants"],
+        ["get", "/applicant/:uuid", "Applicants/UserCanViewApplicant"],
+      ],
     },
   ];
 };
