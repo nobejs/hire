@@ -9,7 +9,17 @@ module.exports = (app) => {
 
   return [
     {
-      endpoints: [],
+      endpoints: [
+        ["post", "/jobs", "Jobs/CanPostJob"],
+        ["put", "/jobs/:uuid", "Jobs/CanUpdateJob"],
+        ["get", "/jobs", "Jobs/CanViewAllJobs"],
+        ["get", "/jobs/:uuid", "Jobs/CanViewJob"],
+        ["post", "/seekers", "Seekers/CanAddSeeker"],
+        ["put", "/seekers/:uuid", "Seekers/CanUpdateSeeker"],
+        ["get", "/seekers", "Seekers/CanViewAllSeekers"],
+        ["get", "/seekers/:uuid", "Seekers/CanViewSeeker"],
+        ["delete", "/seekers/:uuid", "Seekers/CanDeleteSeeker"],
+      ],
     },
   ];
 };
