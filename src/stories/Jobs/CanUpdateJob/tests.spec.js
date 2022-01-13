@@ -3,75 +3,40 @@ const knex = requireKnex();
 const randomUser = requireUtil("randomUser");
 const contextClassRef = requireUtil("contextHelper");
 const JobsRepo = requireRepo("jobs");
+const truncateAllTables = requireFunction("truncateAllTables");
 
 describe("Test Handler Jobs/UserCanUpdateJob", () => {
-  it("dummy_story_which_will_pass", async () => {
+  beforeEach(async () => {
+    await truncateAllTables();
+  });
+  it("can_update_a_job", async () => {
     let result = {};
     try {
       contextClassRef.user = randomUser();
       contextClassRef.headers = {
         Authorization: `Bearer ${contextClassRef.user.token}`,
       };
-      const testQuery = await JobsRepo.create({
-        user_uuid: contextClassRef.user.user_uuid,
-        company_name: "Betalectic Pvt Lts",
-        title: "Software Engineer",
-        experience: "1 year",
-        location: {
-          country: "India",
-          city: "Hyderabad",
+      const testJob = await JobsRepo.create({
+        recruiter_uuid: "001",
+        title: "Full stack Developer",
+        job_description: {
+          company: "google",
         },
-        description: "",
-        requirements_attachments: [],
-        top_skills: ["React JS", "Node JS"],
-        employment_type: "private",
-        salary_offer_band: {
-          currency: "INR",
-          range: {
-            from: "500000",
-            to: "600000",
-          },
-        },
-        about_company: "Open Source IT Projects Private Ltd",
-        company_size: "10-15",
-        industry: "IT - Information Technology",
-        specialization_area: "SAP, Web Development",
-        notice_period_acceptance: "1 Week",
-        note_for_applicants: "",
-        applicants: [],
+        status: "active"
       });
-      result = await testStrategy("Jobs/UserCanUpdateJob", {
+      result = await testStrategy("Jobs/CanUpdateJob", {
         prepareResult: {
           reqParams: {
-            uuid: testQuery.uuid,
+            uuid: testJob.uuid,
           },
           reqBody: {
-            user_uuid: contextClassRef.user.user_uuid,
-            company_name: "Betalectic Pvt Lts",
-            title: "Software Engineer",
-            experience: "1 year",
-            location: {
-              country: "India",
-              city: "Hyderabad",
+            recruiter_uuid: "001",
+            title: "React JS",
+            job_description: {
+              company: "Facebook",
+              experience:"3yrs"
             },
-            description: "",
-            requirements_attachments: [],
-            top_skills: ["React JS", "Node JS"],
-            employment_type: "private",
-            salary_offer_band: {
-              currency: "INR",
-              range: {
-                from: "500000",
-                to: "600000",
-              },
-            },
-            about_company: "Open Source IT Projects Private Ltd",
-            company_size: "10-15",
-            industry: "IT - Information Technology",
-            specialization_area: "SAP, Web Development",
-            notice_period_acceptance: "1 Week",
-            note_for_applicants: "",
-            applicants: [],
+            status: "draft"
           },
         },
       });
@@ -81,34 +46,13 @@ describe("Test Handler Jobs/UserCanUpdateJob", () => {
     const { respondResult } = result;
     expect(respondResult).toMatchObject({
       uuid: expect.any(String),
-      user_uuid: expect.any(String),
-      company_name: "Betalectic Pvt Lts",
-      title: "Software Engineer",
-      experience: "1 year",
-      location: {
-        country: "India",
-        city: "Hyderabad",
+      recruiter_uuid: "001",
+      title: "React JS",
+      job_description: {
+        company: "Facebook",
+        experience:"3yrs"
       },
-      description: "",
-      requirements_attachments: [],
-      top_skills: ["React JS", "Node JS"],
-      employment_type: "private",
-      salary_offer_band: {
-        currency: "INR",
-        range: {
-          from: "500000",
-          to: "600000",
-        },
-      },
-      about_company: "Open Source IT Projects Private Ltd",
-      company_size: "10-15",
-      industry: "IT - Information Technology",
-      specialization_area: "SAP, Web Development",
-      notice_period_acceptance: "1 Week",
-      note_for_applicants: "",
-      applicants: [],
-      created_at: expect.any(Date),
-      updated_at: expect.any(Date),
+      status: "draft"
     });
   });
 });

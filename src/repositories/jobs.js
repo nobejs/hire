@@ -16,13 +16,8 @@ const create = async (payload) => {
 
 const getAllJobs = async (query) => {
   try {
-    if (query && query.tags && query.tags.length > 0) {
-      var arr = query.tags.split(",");
-      return await getJobsByTags(arr);
-    } else {
-      const rows = knex("jobs").orderBy("created_at", "desc");
-      return rows;
-    }
+    const rows = knex("jobs").orderBy("created_at", "desc").where('deleted_at',null);
+    return rows;
   } catch (error) {
     throw error;
   }
@@ -41,20 +36,14 @@ const getAllPostedJobs = async (user_uuid) => {
   }
 };
 
-const remove = async (id, user) => {
-  const query = await knex("jobs").where({ uuid: id });
-  if (query.length === 0) {
-    return { message: "doesn't exist" };
+const remove = async (id) => {
+  const job = await knex("jobs").where({ uuid: id });
+  if (job.length === 0) {
+    return { message: "Not found" };
   } else {
-    if (query[0].user_uuid !== user) {
-      return { message: "Not authorized" };
-    } else {
       const where = { uuid: id };
-      //   await knex('jobs_tags').where({ query_uuid: where.uuid }).delete();
-      await baseRepo.remove("jobs", where, "hard");
-      //   await baseRepo.remove("jobs", where, "soft");
+      await baseRepo.remove("jobs", where, "soft");
       return { message: "success" };
-    }
   }
 };
 

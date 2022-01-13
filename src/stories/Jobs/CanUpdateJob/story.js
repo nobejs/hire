@@ -22,25 +22,31 @@ const authorize = async ({ prepareResult }) => {
 
 const validateInput = async (prepareResult) => {
   const constraints = {
-    company_name: {
+    recruiter_uuid: {
       presence: {
         allowEmpty: false,
-        message: "^Please enter company_name",
+        message: "^Please provide recruiter_uuid",
       },
     },
     title: {
       presence: {
         allowEmpty: false,
-        message: "^Please enter job_title",
+        message: "^Please enter job title",
       },
     },
-    experience: {
+    job_description: {
       presence: {
         allowEmpty: false,
-        message: "^Please enter experience",
+        message: "^Please enter job description",
       },
     },
-  };
+    status: {
+      presence: {
+        allowEmpty: false,
+        message: "^Please enter job status",
+      },
+  }
+}
 
   return validator(prepareResult, constraints);
 };

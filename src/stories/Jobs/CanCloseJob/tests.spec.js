@@ -5,11 +5,11 @@ const JobsRepo = requireRepo("jobs");
 const randomUser = requireUtil("randomUser");
 const truncateAllTables = requireFunction("truncateAllTables");
 
-describe("Test Handler Jobs/UserCanViewJob", () => {
+describe("Test Handler CanCloseJob", () => {
   beforeEach(async () => {
     await truncateAllTables();
   });
-  it("can_view_a_job", async () => {
+  it("can_close_job", async () => {
     let result = {};
     try {
       contextClassRef.user = randomUser();
@@ -25,7 +25,8 @@ describe("Test Handler Jobs/UserCanViewJob", () => {
         },
         status: "active"
       });
-      result = await testStrategy("Jobs/CanViewJob", {
+
+      result = await testStrategy("Jobs/CanCloseJob", {
         prepareResult: {
           uuid: testJob.uuid,
         },
@@ -35,13 +36,7 @@ describe("Test Handler Jobs/UserCanViewJob", () => {
     }
     const { respondResult } = result;
     expect(respondResult).toMatchObject({
-      uuid: expect.any(String),
-      recruiter_uuid: "001",
-      title: "Full stack Developer",
-      job_description: {
-        company: "google",
-      },
-      status: "active"
+      message: "success"
     });
   });
 });

@@ -2,43 +2,48 @@ const debugLogger = requireUtil("debugLogger");
 const knex = requireKnex();
 const randomUser = requireUtil("randomUser");
 const contextClassRef = requireUtil("contextHelper");
+const truncateAllTables = requireFunction("truncateAllTables");
 
 describe("Test Handler UserCanPostJob", () => {
-  it("dummy_story_which_will_pass", async () => {
+  beforeEach(async () => {
+    await truncateAllTables();
+  });
+  it("can_post_job", async () => {
     let result = {};
     try {
       contextClassRef.user = randomUser();
       contextClassRef.headers = {
         Authorization: `Bearer ${contextClassRef.user.token}`,
       };
-      result = await testStrategy("Jobs/UserCanPostJob", {
+      result = await testStrategy("Jobs/CanPostJob", {
         prepareResult: {
-          user_uuid: contextClassRef.user.user_uuid,
-          company_name: "Betalectic Pvt Lts",
-          title: "Software Engineer",
-          experience: "1 year",
-          location: {
-            country: "India",
-            city: "Hyderabad",
-          },
-          description: "",
-          requirements_attachments: [],
-          top_skills: ["React JS", "Node JS"],
-          employment_type: "private",
-          salary_offer_band: {
-            currency: "INR",
-            range: {
-              from: "500000",
-              to: "600000",
+          recruiter_uuid: "001",
+          title: "Full stack Developer",
+          job_description: {
+            company_name: "google",
+            location: {
+                country: "USA",
+                city: "New York"
             },
-          },
-          about_company: "Open Source IT Projects Private Ltd",
-          company_size: "10-15",
-          industry: "IT - Information Technology",
-          specialization_area: "SAP, Web Development",
-          notice_period_acceptance: "1 Week",
-          note_for_applicants: "",
-          applicants: [],
+            job_types: [
+                "full time",
+                "remote"
+            ],
+            salary_offer_band: {
+                currency: "USD",
+                range: "100000$-200000$"
+            },
+            company_size: 20000,
+            industry: [
+                "IT",
+                "WEB"
+            ],
+            contact_details: {
+                email: "google@gamail.com"
+            },
+            start_date: "12-10-2022"
+        },
+          status: "active"
         },
       });
     } catch (error) {
@@ -47,34 +52,32 @@ describe("Test Handler UserCanPostJob", () => {
     const { respondResult } = result;
     expect(respondResult).toMatchObject({
       uuid: expect.any(String),
-      user_uuid: expect.any(String),
-      company_name: "Betalectic Pvt Lts",
-      title: "Software Engineer",
-      experience: "1 year",
+      recruiter_uuid: "001",
+      title: "Full stack Developer",
+      job_description: { company_name: "google",
       location: {
-        country: "India",
-        city: "Hyderabad",
+          country: "USA",
+          city: "New York"
       },
-      description: "",
-      requirements_attachments: [],
-      top_skills: ["React JS", "Node JS"],
-      employment_type: "private",
+      job_types: [
+          "full time",
+          "remote"
+      ],
       salary_offer_band: {
-        currency: "INR",
-        range: {
-          from: "500000",
-          to: "600000",
-        },
+          currency: "USD",
+          range: "100000$-200000$"
       },
-      about_company: "Open Source IT Projects Private Ltd",
-      company_size: "10-15",
-      industry: "IT - Information Technology",
-      specialization_area: "SAP, Web Development",
-      notice_period_acceptance: "1 Week",
-      note_for_applicants: "",
-      applicants: [],
-      created_at: expect.any(Date),
-      updated_at: expect.any(Date),
+      company_size: 20000,
+      industry: [
+          "IT",
+          "WEB"
+      ],
+      contact_details: {
+          email: "google@gamail.com"
+      },
+      start_date: "12-10-2022"
+      },
+      status: "active"
     });
   });
 });

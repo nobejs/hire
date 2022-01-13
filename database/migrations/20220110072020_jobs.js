@@ -7,10 +7,13 @@ exports.up = async function (knex) {
       .primary()
       .defaultTo(knex.raw("uuid_generate_v4()"));
     table.string("recruiter_uuid", 255).notNullable();
+    table.string("employer_id", 255).nullable();
+    table.string("title", 255).notNullable();
     table.jsonb("job_description").notNullable();
     table.string("status", 255).notNullable();
-    table.timestamps();
-    table.date("deleted_at").nullable();
+    table.datetime("created_at");
+    table.datetime("updated_at");
+    table.datetime("deleted_at");
   });
 };
 

@@ -5,7 +5,7 @@ const httpServer = requireHttpServer();
 const JobsRepo = requireRepo("jobs");
 const truncateAllTables = requireFunction("truncateAllTables");
 
-describe("Test API Jobs/CanViewJob", () => {
+describe("Test API CanCloseJob", () => {
   beforeAll(async () => {
     await truncateAllTables();
     contextClassRef.user = randomUser();
@@ -14,7 +14,7 @@ describe("Test API Jobs/CanViewJob", () => {
     };
   });
 
-  it("can_view_a_job", async () => {
+  it("can_close_job", async () => {
     let respondResult;
     try {
       const app = httpServer();
@@ -29,8 +29,8 @@ describe("Test API Jobs/CanViewJob", () => {
       });
 
       respondResult = await app.inject({
-        method: "GET",
-        url: `/jobs/${testJob.uuid}`,
+        method: "DELETE",
+        url: `/jobs/${testJob.uuid}`, // This should be in endpoints.js
         headers: contextClassRef.headers,
       });
     } catch (error) {
@@ -39,13 +39,7 @@ describe("Test API Jobs/CanViewJob", () => {
 
     expect(respondResult.statusCode).toBe(200);
     expect(respondResult.json()).toMatchObject({
-      uuid: expect.any(String),
-      recruiter_uuid: "001",
-      title: "Full stack Developer",
-      job_description: {
-        company: "google",
-      },
-      status: "active"
+      message: "success"
     });
   });
 });
