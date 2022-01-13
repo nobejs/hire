@@ -5,7 +5,7 @@ const SeekersRepo = requireRepo("seekers");
 const randomUser = requireUtil("randomUser");
 
 describe("Test Handler Seekers/CanDeleteSeeker", () => {
-  it("dummy_story_which_will_pass", async () => {
+  it("can_delete_seeker_story_which_will_pass", async () => {
     let result = {};
     try {
       contextClassRef.user = randomUser();

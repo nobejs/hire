@@ -4,7 +4,7 @@ const randomUser = requireUtil("randomUser");
 const contextClassRef = requireUtil("contextHelper");
 
 describe("Test Handler Seekers/CanAddSeeker", () => {
-  it("dummy_story_which_will_pass", async () => {
+  it("can_add_seeker_story_which_will_pass", async () => {
     let result = {};
     try {
       contextClassRef.user = randomUser();

@@ -12,7 +12,7 @@ describe("Test API Seekers/CanDeleteSeeker", () => {
     };
   });
 
-  it("dummy_story_which_will_pass", async () => {
+  it("can_delete_seeker_story_which_will_pass", async () => {
     let respondResult;
     try {
       const app = httpServer();

@@ -11,7 +11,7 @@ describe("Test API Seekers/CanAddSeeker", () => {
     };
   });
 
-  it("dummy_story_which_will_pass", async () => {
+  it("can_add_seeker_story_which_will_pass", async () => {
     let respondResult;
     try {
       const app = httpServer();

@@ -5,7 +5,7 @@ const SeekersRepo = requireRepo("seekers");
 const randomUser = requireUtil("randomUser");
 
 describe("Test Handler Seekers/CanViewSeeker", () => {
-  it("dummy_story_which_will_pass", async () => {
+  it("can_view_seeker_story_which_will_pass", async () => {
     let result = {};
     try {
       contextClassRef.user = randomUser();

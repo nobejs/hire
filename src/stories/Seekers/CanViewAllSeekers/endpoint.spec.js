@@ -12,7 +12,7 @@ describe("Test API Seekers/CanViewAllSeekers", () => {
     };
   });
 
-  it("dummy_story_which_will_pass", async () => {
+  it("can_view_all_seekers_story_which_will_pass", async () => {
     let respondResult;
 
     try {

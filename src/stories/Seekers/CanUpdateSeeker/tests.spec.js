@@ -5,7 +5,7 @@ const contextClassRef = requireUtil("contextHelper");
 const SeekersRepo = requireRepo("seekers");
 
 describe("Test Handler Seekers/CanUpdateSeeker", () => {
-  it("dummy_story_which_will_pass", async () => {
+  it("can_update_seeker_story_which_will_pass", async () => {
     let result = {};
     try {
       contextClassRef.user = randomUser();

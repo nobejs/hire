@@ -12,7 +12,7 @@ describe("Test API Seekers/CanViewSeeker", () => {
     };
   });
 
-  it("dummy_story_which_will_pass", async () => {
+  it("can_view_seeker_story_which_will_pass", async () => {
     let respondResult;
     try {
       const app = httpServer();
