@@ -1,7 +1,7 @@
 const JobsRepo = requireRepo("jobs");
 
 const prepare = ({ reqQuery, reqBody, reqParams, req }) => {
-  return reqQuery;
+  return reqParams;
 };
 
 const authorize = async ({ prepareResult }) => {
@@ -21,7 +21,7 @@ const authorize = async ({ prepareResult }) => {
 
 const handle = async ({ prepareResult, authorizeResult }) => {
   try {
-    return await JobsRepo.getAllJobs();
+    return await JobsRepo.remove(prepareResult.uuid);
   } catch (error) {
     throw error;
   }
@@ -29,7 +29,7 @@ const handle = async ({ prepareResult, authorizeResult }) => {
 
 const respond = async ({ handleResult }) => {
   try {
-    return await handleResult;
+    return handleResult;
   } catch (error) {
     throw error;
   }

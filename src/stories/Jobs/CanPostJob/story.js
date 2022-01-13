@@ -4,24 +4,12 @@ const validator = requireValidator();
 
 const prepare = ({ reqQuery, reqBody, reqParams, req }) => {
   const payload = findKeysFromRequest(req, [
-    "company_name",
+    "recruiter_uuid",
+    "employer_id",
     "title",
-    "experience",
-    "location",
-    "description",
-    "requirements_attachments",
-    "top_skills",
-    "employment_type",
-    "salary_offer_band",
-    "about_company",
-    "company_size",
-    "industry",
-    "specialization_area",
-    "notice_period_acceptance",
-    "note_for_applicants",
-    "applicants",
+    "job_description",
+    "status"
   ]);
-  payload["user_uuid"] = req.user;
   return payload;
 };
 
@@ -41,31 +29,86 @@ const authorize = async ({ prepareResult }) => {
 
 const validateInput = async (prepareResult) => {
   const constraints = {
-    user_uuid: {
+    recruiter_uuid: {
       presence: {
         allowEmpty: false,
-        message: "^Please provide user_uuid",
-      },
-    },
-    company_name: {
-      presence: {
-        allowEmpty: false,
-        message: "^Please enter company_name",
+        message: "^Please provide recruiter_uuid",
       },
     },
     title: {
       presence: {
         allowEmpty: false,
-        message: "^Please enter job_title",
+        message: "^Please enter job title",
       },
     },
-    experience: {
+    job_description: {
       presence: {
         allowEmpty: false,
-        message: "^Please enter experience",
+        message: "^Please enter job description",
       },
     },
-  };
+    status: {
+      presence: {
+        allowEmpty: false,
+        message: "^Please enter job status",
+      },
+  }
+}
+
+  return validator(prepareResult, constraints);
+};
+
+const validateJobDetails = async (prepareResult) => {
+  const constraints = {
+    company_name: {
+      presence: {
+        allowEmpty: false,
+        message: "^Please provide Comapny name",
+      },
+    },
+    location: {
+      presence: {
+        allowEmpty: false,
+        message: "^Please enter job location",
+      },
+    },
+    job_types: {
+      presence: {
+        allowEmpty: false,
+        message: "^Please enter job job types",
+      },
+    },
+    salary_offer_band: {
+      presence: {
+        allowEmpty: false,
+        message: "^Please enter salary offer band",
+      },
+  },
+  company_size: {
+    presence: {
+      allowEmpty: false,
+      message: "^Please provide Comapny size",
+    },
+  },
+  industry: {
+    presence: {
+      allowEmpty: false,
+      message: "^Please provide industry",
+    },
+  },
+  contact_details: {
+    presence: {
+      allowEmpty: false,
+      message: "^Please provide contact details",
+    },
+  },
+  start_date: {
+    presence: {
+      allowEmpty: false,
+      message: "^Please provide start date",
+    },
+  },
+}
 
   return validator(prepareResult, constraints);
 };
@@ -73,6 +116,7 @@ const validateInput = async (prepareResult) => {
 const handle = async ({ prepareResult, authorizeResult }) => {
   try {
     await validateInput(prepareResult);
+    await validateJobDetails(prepareResult.job_description);
     return await JobsRepo.create(prepareResult);
   } catch (error) {
     throw error;

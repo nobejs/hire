@@ -12,43 +12,23 @@ describe("Test API Jobs/CanViewJob", () => {
     };
   });
 
-  it("dummy_story_which_will_pass", async () => {
+  it("can_view_a_job", async () => {
     let respondResult;
     try {
       const app = httpServer();
 
-      const testQuery = await JobsRepo.create({
-        user_uuid: contextClassRef.user.user_uuid,
-        company_name: "Betalectic Pvt Lts",
-        title: "Software Engineer",
-        experience: "1 year",
-        location: {
-          country: "India",
-          city: "Hyderabad",
+      const testJob = await JobsRepo.create({
+        recruiter_uuid: "001",
+        title: "Full stack Developer",
+        job_description: {
+          comapny: "google",
         },
-        description: "",
-        requirements_attachments: [],
-        top_skills: ["React JS", "Node JS"],
-        employment_type: "private",
-        salary_offer_band: {
-          currency: "INR",
-          range: {
-            from: "500000",
-            to: "600000",
-          },
-        },
-        about_company: "Open Source IT Projects Private Ltd",
-        company_size: "10-15",
-        industry: "IT - Information Technology",
-        specialization_area: "SAP, Web Development",
-        notice_period_acceptance: "1 Week",
-        note_for_applicants: "",
-        applicants: [],
+        status: "active"
       });
 
       respondResult = await app.inject({
         method: "GET",
-        url: `/jobs/${testQuery.uuid}`,
+        url: `/jobs/${testJob.uuid}`,
         headers: contextClassRef.headers,
       });
     } catch (error) {
@@ -58,6 +38,12 @@ describe("Test API Jobs/CanViewJob", () => {
     expect(respondResult.statusCode).toBe(200);
     expect(respondResult.json()).toMatchObject({
       uuid: expect.any(String),
+      recruiter_uuid: "001",
+      title: "Full stack Developer",
+      job_description: {
+        comapny: "google",
+      },
+      status: "active"
     });
   });
 });

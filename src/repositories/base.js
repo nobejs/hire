@@ -37,6 +37,7 @@ const remove = async (table, where, mode = "soft") => {
         updated_at: new Date().toISOString(),
       });
 
+      console.log(row,"roww")
       return row;
     }
 

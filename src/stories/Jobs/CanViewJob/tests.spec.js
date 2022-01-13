@@ -5,7 +5,7 @@ const JobsRepo = requireRepo("jobs");
 const randomUser = requireUtil("randomUser");
 
 describe("Test Handler Jobs/UserCanViewJob", () => {
-  it("dummy_story_which_will_pass", async () => {
+  it("can_view_a_job", async () => {
     let result = {};
     try {
       contextClassRef.user = randomUser();
@@ -13,37 +13,17 @@ describe("Test Handler Jobs/UserCanViewJob", () => {
         Authorization: `Bearer ${contextClassRef.user.token}`,
       };
 
-      const testQuery = await JobsRepo.create({
-        user_uuid: contextClassRef.user.user_uuid,
-        company_name: "Betalectic Pvt Lts",
-        title: "Software Engineer",
-        experience: "1 year",
-        location: {
-          country: "India",
-          city: "Hyderabad",
+      const testJob = await JobsRepo.create({
+        recruiter_uuid: "001",
+        title: "Full stack Developer",
+        job_description: {
+          comapny: "google",
         },
-        description: "",
-        requirements_attachments: [],
-        top_skills: ["React JS", "Node JS"],
-        employment_type: "private",
-        salary_offer_band: {
-          currency: "INR",
-          range: {
-            from: "500000",
-            to: "600000",
-          },
-        },
-        about_company: "Open Source IT Projects Private Ltd",
-        company_size: "10-15",
-        industry: "IT - Information Technology",
-        specialization_area: "SAP, Web Development",
-        notice_period_acceptance: "1 Week",
-        note_for_applicants: "",
-        applicants: [],
+        status: "active"
       });
-      result = await testStrategy("Jobs/UserCanViewJob", {
+      result = await testStrategy("Jobs/CanViewJob", {
         prepareResult: {
-          uuid: testQuery.uuid,
+          uuid: testJob.uuid,
         },
       });
     } catch (error) {
@@ -52,6 +32,12 @@ describe("Test Handler Jobs/UserCanViewJob", () => {
     const { respondResult } = result;
     expect(respondResult).toMatchObject({
       uuid: expect.any(String),
+      recruiter_uuid: "001",
+      title: "Full stack Developer",
+      job_description: {
+        comapny: "google",
+      },
+      status: "active"
     });
   });
 });
