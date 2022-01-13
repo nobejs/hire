@@ -16,7 +16,7 @@ const create = async (payload) => {
 
 const getAllJobs = async (query) => {
   try {
-    const rows = knex("jobs").orderBy("created_at", "desc");
+    const rows = knex("jobs").orderBy("created_at", "desc").where('deleted_at',null);
     return rows;
   } catch (error) {
     throw error;
