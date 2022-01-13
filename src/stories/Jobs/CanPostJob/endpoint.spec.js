@@ -2,9 +2,11 @@ const contextClassRef = requireUtil("contextHelper");
 const randomUser = requireUtil("randomUser");
 const knex = requireKnex();
 const httpServer = requireHttpServer();
+const truncateAllTables = requireFunction("truncateAllTables");
 
 describe("Test API Jobs/CanPostJob", () => {
   beforeAll(async () => {
+    await truncateAllTables();
     contextClassRef.user = randomUser();
     contextClassRef.headers = {
       Authorization: `Bearer ${contextClassRef.user.token}`,

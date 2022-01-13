@@ -2,8 +2,12 @@ const debugLogger = requireUtil("debugLogger");
 const knex = requireKnex();
 const randomUser = requireUtil("randomUser");
 const contextClassRef = requireUtil("contextHelper");
+const truncateAllTables = requireFunction("truncateAllTables");
 
 describe("Test Handler UserCanPostJob", () => {
+  beforeEach(async () => {
+    await truncateAllTables();
+  });
   it("can_post_job", async () => {
     let result = {};
     try {

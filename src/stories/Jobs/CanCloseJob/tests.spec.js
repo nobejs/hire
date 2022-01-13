@@ -3,8 +3,12 @@ const knex = requireKnex();
 const contextClassRef = requireUtil("contextHelper");
 const JobsRepo = requireRepo("jobs");
 const randomUser = requireUtil("randomUser");
+const truncateAllTables = requireFunction("truncateAllTables");
 
 describe("Test Handler CanCloseJob", () => {
+  beforeEach(async () => {
+    await truncateAllTables();
+  });
   it("can_close_job", async () => {
     let result = {};
     try {
@@ -17,7 +21,7 @@ describe("Test Handler CanCloseJob", () => {
         recruiter_uuid: "001",
         title: "Full stack Developer",
         job_description: {
-          comapny: "google",
+          company: "google",
         },
         status: "active"
       });

@@ -3,9 +3,11 @@ const randomUser = requireUtil("randomUser");
 const knex = requireKnex();
 const httpServer = requireHttpServer();
 const JobsRepo = requireRepo("jobs");
+const truncateAllTables = requireFunction("truncateAllTables");
 
 describe("Test API Jobs/ViewAllJobs", () => {
   beforeAll(async () => {
+    await truncateAllTables();
     contextClassRef.user = randomUser();
     contextClassRef.headers = {
       Authorization: `Bearer ${contextClassRef.user.token}`,
@@ -21,7 +23,7 @@ describe("Test API Jobs/ViewAllJobs", () => {
         recruiter_uuid: "001",
         title: "Full stack Developer",
         job_description: {
-          comapny: "google",
+          company: "google",
         },
         status: "active"
       });
@@ -44,7 +46,7 @@ describe("Test API Jobs/ViewAllJobs", () => {
           recruiter_uuid: "001",
           title: "Full stack Developer",
           job_description: {
-            comapny: "google",
+            company: "google",
           },
           status: "active"
         }),

@@ -63,7 +63,7 @@ const validateJobDetails = async (prepareResult) => {
     company_name: {
       presence: {
         allowEmpty: false,
-        message: "^Please provide Comapny name",
+        message: "^Please provide Company name",
       },
     },
     location: {
@@ -75,7 +75,7 @@ const validateJobDetails = async (prepareResult) => {
     job_types: {
       presence: {
         allowEmpty: false,
-        message: "^Please enter job job types",
+        message: "^Please enter job types",
       },
     },
     salary_offer_band: {
@@ -87,7 +87,7 @@ const validateJobDetails = async (prepareResult) => {
   company_size: {
     presence: {
       allowEmpty: false,
-      message: "^Please provide Comapny size",
+      message: "^Please provide company size",
     },
   },
   industry: {

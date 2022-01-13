@@ -3,8 +3,12 @@ const knex = requireKnex();
 const randomUser = requireUtil("randomUser");
 const contextClassRef = requireUtil("contextHelper");
 const JobsRepo = requireRepo("jobs");
+const truncateAllTables = requireFunction("truncateAllTables");
 
 describe("Test Handler Jobs/UserCanUpdateJob", () => {
+  beforeEach(async () => {
+    await truncateAllTables();
+  });
   it("can_update_a_job", async () => {
     let result = {};
     try {
@@ -16,7 +20,7 @@ describe("Test Handler Jobs/UserCanUpdateJob", () => {
         recruiter_uuid: "001",
         title: "Full stack Developer",
         job_description: {
-          comapny: "google",
+          company: "google",
         },
         status: "active"
       });
@@ -29,7 +33,7 @@ describe("Test Handler Jobs/UserCanUpdateJob", () => {
             recruiter_uuid: "001",
             title: "React JS",
             job_description: {
-              comapny: "Facebook",
+              company: "Facebook",
               experience:"3yrs"
             },
             status: "draft"
@@ -45,7 +49,7 @@ describe("Test Handler Jobs/UserCanUpdateJob", () => {
       recruiter_uuid: "001",
       title: "React JS",
       job_description: {
-        comapny: "Facebook",
+        company: "Facebook",
         experience:"3yrs"
       },
       status: "draft"
