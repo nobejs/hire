@@ -16,7 +16,7 @@ const create = async (payload) => {
 
 const getAllSeekers = async (query) => {
   try {
-    return await knex("seekers").orderBy("created_at", "desc");
+    return await knex("seekers").orderBy("created_at", "desc").where('deleted_at',null);
   } catch (error) {
     throw error;
   }
@@ -29,7 +29,7 @@ const findByUuid = async (where = {}) => {
 const remove = async (id) => {
   const query = await knex("seekers").where({ uuid: id });
   if (query.length === 0) {
-    return { message: "doesn't exist" };
+    return { message: "Not found" };
   } else {
     const where = { uuid: id };
     await baseRepo.remove("seekers", where, "hard");

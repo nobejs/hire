@@ -5,7 +5,7 @@ const SeekersRepo = requireRepo("seekers");
 const randomUser = requireUtil("randomUser");
 
 describe("Test Handler Seekers/CanViewSeeker", () => {
-  it("can_view_seeker_story_which_will_pass", async () => {
+  it("user_can_view_seeker_story_which_will_pass", async () => {
     let result = {};
     try {
       contextClassRef.user = randomUser();
@@ -20,7 +20,7 @@ describe("Test Handler Seekers/CanViewSeeker", () => {
         seeker_description: {
           gender: "male",
           age: 24,
-          experience: "1/2 years",
+          experience: "6 months",
           current_company: "Betalectic IT Solutions",
           designation_or_role: "Full stack developer",
           specialization_area: "Web Development",
@@ -58,7 +58,7 @@ describe("Test Handler Seekers/CanViewSeeker", () => {
             },
           },
           note_for_recruiter: "",
-          notice_period: "10-20 days",
+          notice_period: "10 days",
         },
       });
       result = await testStrategy("Seekers/CanViewSeeker", {

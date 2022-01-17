@@ -5,7 +5,7 @@ const contextClassRef = requireUtil("contextHelper");
 const SeekersRepo = requireRepo("seekers");
 
 describe("Test Handler Seekers/CanUpdateSeeker", () => {
-  it("can_update_seeker_story_which_will_pass", async () => {
+  it("user_can_update_seeker_story_which_will_pass", async () => {
     let result = {};
     try {
       contextClassRef.user = randomUser();
@@ -19,7 +19,7 @@ describe("Test Handler Seekers/CanUpdateSeeker", () => {
         seeker_description: {
           gender: "male",
           age: 24,
-          experience: "1/2 years",
+          experience: "6 months",
           current_company: "Betalectic IT Solutions",
           designation_or_role: "Full stack developer",
           specialization_area: "Web Development",
@@ -57,7 +57,7 @@ describe("Test Handler Seekers/CanUpdateSeeker", () => {
             },
           },
           note_for_recruiter: "",
-          notice_period: "10-20 days",
+          notice_period: "10 days",
         },
       });
       result = await testStrategy("Seekers/CanUpdateSeeker", {
@@ -71,7 +71,7 @@ describe("Test Handler Seekers/CanUpdateSeeker", () => {
             seeker_description: {
               gender: "male",
               age: 27,
-              experience: "4 years",
+              experience: "4 ",
               current_company: "Betalectic IT Solutions",
               designation_or_role: "Full stack developer",
               specialization_area: "Web Development",
@@ -112,7 +112,7 @@ describe("Test Handler Seekers/CanUpdateSeeker", () => {
                 },
               },
               note_for_recruiter: "",
-              notice_period: "10-20 days",
+              notice_period: "10 days",
             },
           },
         },
@@ -128,7 +128,7 @@ describe("Test Handler Seekers/CanUpdateSeeker", () => {
       seeker_description: {
         gender: "male",
         age: 27,
-        experience: "4 years",
+        experience: "4 ",
         current_company: "Betalectic IT Solutions",
         designation_or_role: "Full stack developer",
         specialization_area: "Web Development",
@@ -166,7 +166,7 @@ describe("Test Handler Seekers/CanUpdateSeeker", () => {
           },
         },
         note_for_recruiter: "",
-        notice_period: "10-20 days",
+        notice_period: "10 days",
       },
     });
   });

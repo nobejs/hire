@@ -12,7 +12,7 @@ describe("Test API Seekers/CanViewAllSeekers", () => {
     };
   });
 
-  it("can_view_all_seekers_story_which_will_pass", async () => {
+  it("user_can_view_all_seekers_story_which_will_pass", async () => {
     let respondResult;
 
     try {
@@ -23,7 +23,7 @@ describe("Test API Seekers/CanViewAllSeekers", () => {
         seeker_description: {
           gender: "male",
           age: 24,
-          experience: "1/2 years",
+          experience: "6 months",
           current_company: "Betalectic IT Solutions",
           designation_or_role: "Full stack developer",
           specialization_area: "Web Development",
@@ -61,7 +61,7 @@ describe("Test API Seekers/CanViewAllSeekers", () => {
             },
           },
           note_for_recruiter: "",
-          notice_period: "10-20 days",
+          notice_period: "10 days",
         },
       });
 
@@ -83,7 +83,7 @@ describe("Test API Seekers/CanViewAllSeekers", () => {
           seeker_description: {
             gender: "male",
             age: 24,
-            experience: "1/2 years",
+            experience: "6 months",
             current_company: "Betalectic IT Solutions",
             designation_or_role: "Full stack developer",
             specialization_area: "Web Development",
@@ -124,7 +124,7 @@ describe("Test API Seekers/CanViewAllSeekers", () => {
               },
             },
             note_for_recruiter: "",
-            notice_period: "10-20 days",
+            notice_period: "10 days",
           },
         }),
       ])
