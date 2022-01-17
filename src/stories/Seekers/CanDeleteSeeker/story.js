@@ -6,13 +6,6 @@ const prepare = ({ reqQuery, reqBody, reqParams, req }) => {
 
 const authorize = async ({ prepareResult }) => {
   try {
-    if (0) {
-      throw {
-        statusCode: 401,
-        message: "Unauthorized",
-      };
-    }
-
     return true;
   } catch (error) {
     throw error;
