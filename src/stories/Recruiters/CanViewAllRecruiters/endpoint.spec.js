@@ -2,9 +2,9 @@ const contextClassRef = requireUtil("contextHelper");
 const randomUser = requireUtil("randomUser");
 const knex = requireKnex();
 const httpServer = requireHttpServer();
-const ApplicantsRepo = requireRepo("applicants");
+const RecruiterRepo = requireRepo("recruiters");
 
-describe("Test API Applicants/CanViewAllRecruiters", () => {
+describe("Test API CanViewAllRecruiters", () => {
   beforeAll(async () => {
     contextClassRef.user = randomUser();
     contextClassRef.headers = {
@@ -12,46 +12,24 @@ describe("Test API Applicants/CanViewAllRecruiters", () => {
     };
   });
 
-  it("dummy_story_which_will_pass", async () => {
+  it("can_view_all_recruiters", async () => {
     let respondResult;
     try {
       const app = httpServer();
 
-      await ApplicantsRepo.create({
-        user_uuid: contextClassRef.user.user_uuid,
-        full_name: "Amarendra Varma",
-        gender: "Male",
-        age: 23,
-        experience: "6 months",
-        current_company: "Betalectic IT solutions Pvt Ltd.,",
-        designation: "Full stack developer",
-        current_salary: {
-          currency: "INR",
-          range: {
-            from: "230000",
-            to: "260000",
-          },
+      await RecruiterRepo.create({
+        "name":"hr 1",
+        "user_uuid": contextClassRef.user.user_uuid,
+        "recruiter_type":"in-house",
+        "recruiter_description":{
+          "type":"company"
         },
-        notice_period: "10 days",
-        industry: "IT - Information Technology",
-        specialization_area:
-          "Full stack web developement, Application Developement",
-        top_skills: ["Node Js", "React Js", "Next Js"],
-        achievements: "",
-        current_location: {
-          country: "India",
-          city: "Hyderabad",
-        },
-        location_preference: "Hyderabad",
-        attachments: [],
-        note_for_recruiter:
-          "If I will need Job, work from home for 6 months due to health reasons",
-        looking_for_job: false,
+        "currently_hiring":true
       });
 
       respondResult = await app.inject({
         method: "GET",
-        url: "/applicants",
+        url: "/recruiters",
         headers: contextClassRef.headers,
       });
     } catch (error) {
@@ -62,36 +40,13 @@ describe("Test API Applicants/CanViewAllRecruiters", () => {
     expect(respondResult.json()).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
-          uuid: expect.any(String),
-          user_uuid: contextClassRef.user.user_uuid,
-          full_name: "Amarendra Varma",
-          gender: "Male",
-          age: 23,
-          experience: "6 months",
-          current_company: "Betalectic IT solutions Pvt Ltd.,",
-          designation: "Full stack developer",
-          current_salary: {
-            currency: "INR",
-            range: {
-              from: "230000",
-              to: "260000",
-            },
+          "name":"hr 1",
+          "user_uuid": contextClassRef.user.user_uuid,
+          "recruiter_type":"in-house",
+          "recruiter_description":{
+            "type":"company"
           },
-          notice_period: "10 days",
-          industry: "IT - Information Technology",
-          specialization_area:
-            "Full stack web developement, Application Developement",
-          top_skills: ["Node Js", "React Js", "Next Js"],
-          achievements: "",
-          current_location: {
-            country: "India",
-            city: "Hyderabad",
-          },
-          location_preference: "Hyderabad",
-          attachments: [],
-          note_for_recruiter:
-            "If I will need Job, work from home for 6 months due to health reasons",
-          looking_for_job: false,
+          "currently_hiring":true
         }),
       ])
     );

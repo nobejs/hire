@@ -1,26 +1,13 @@
 const findKeysFromRequest = requireUtil("findKeysFromRequest");
-const ApplicantsRepo = requireRepo("applicants");
+const RecruiterRepo = requireRepo("recruiters");
 const validator = requireValidator();
 
 const prepare = ({ reqQuery, reqBody, reqParams, req }) => {
   const payload = findKeysFromRequest(req, [
-    "full_name",
-    "gender",
-    "age",
-    "experience",
-    "current_company",
-    "designation",
-    "current_salary",
-    "notice_period",
-    "industry",
-    "specialization_area",
-    "top_skills",
-    "achievements",
-    "current_location",
-    "location_preference",
-    "attachments",
-    "note_for_recruiter",
-    "looking_for_job",
+    "name",
+    "recruiter_type",
+    "recruiter_description",
+    "currently_hiring"
   ]);
   payload["user_uuid"] = req.user;
   return payload;
@@ -48,24 +35,30 @@ const validateInput = async (prepareResult) => {
         message: "^Please provide user_uuid",
       },
     },
-    full_name: {
+    name: {
       presence: {
         allowEmpty: false,
-        message: "^Please enter full_name",
+        message: "^Please enter full name",
       },
     },
-    gender: {
+    recruiter_type: {
       presence: {
         allowEmpty: false,
-        message: "^Please enter gender",
+        message: "^Please enter recruiter type",
       },
     },
-    age: {
+    recruiter_description: {
       presence: {
         allowEmpty: false,
-        message: "^Please enter age",
+        message: "^Please enter recruiter description",
       },
     },
+    currently_hiring:{
+      presence: {
+        allowEmpty: false,
+        message: "^Please enter hiring status",
+      },
+    }
   };
 
   return validator(prepareResult, constraints);
@@ -74,7 +67,7 @@ const validateInput = async (prepareResult) => {
 const handle = async ({ prepareResult, authorizeResult }) => {
   try {
     await validateInput(prepareResult);
-    return await ApplicantsRepo.create(prepareResult);
+    return await RecruiterRepo.create(prepareResult);
   } catch (error) {
     throw error;
   }

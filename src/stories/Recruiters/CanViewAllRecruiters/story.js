@@ -1,7 +1,7 @@
-const ApplicantsRepo = requireRepo("applicants");
+const RecruiterRepo = requireRepo("recruiters");
 
 const prepare = ({ reqQuery, reqBody, reqParams, req }) => {
-  return reqQuery;
+  return {};
 };
 
 const authorize = async ({ prepareResult }) => {
@@ -21,7 +21,7 @@ const authorize = async ({ prepareResult }) => {
 
 const handle = async ({ prepareResult, authorizeResult }) => {
   try {
-    return await ApplicantsRepo.getAllApplicants(prepareResult);
+    return await RecruiterRepo.getAllRecruiters();
   } catch (error) {
     throw error;
   }

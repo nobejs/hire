@@ -1,5 +1,6 @@
 const knex = requireKnex();
 const baseRepo = requireUtil("baseRepo");
+const RecruiterRepo = requireRepo("recruiters");
 
 const create = async (payload) => {
   try {
@@ -14,9 +15,63 @@ const create = async (payload) => {
   }
 };
 
+const createWithRecruiter = async (payload) => {
+  try {
+    let userId = payload.user_uuid;
+    let recruiterName = payload.recruiter_name;
+    let recruiterDescription = payload.recruiter_description;
+    delete payload.recruiter_description;
+    delete payload.recruiter_name
+    delete payload.user_uuid
+    let recruiter = await knex('recruiters').where({ user_uuid: userId }).first();
+    console.log(recruiter,"existing-rec")
+    if (recruiter) {
+      payload = baseRepo.addCreatedTimestamps(payload);
+      payload['recruiter_uuid'] = recruiter.uuid;
+      console.log(payload,"job-payload")
+      let result = await knex.transaction(async (trx) => {
+        const rows = await trx("jobs").insert(payload).returning("*");
+        return rows[0];
+      });
+      return {
+        recruiter:recruiter,
+        job:result
+      };
+    } else {
+      console.log("else-else")
+      let recruiterPayload = {}
+      recruiterPayload['name'] = recruiterName;
+      recruiterPayload['recruiter_type'] = "in-house";
+      recruiterPayload['currently_hiring'] = true;
+      recruiterPayload['recruiter_description'] = recruiterDescription;
+      recruiterPayload['user_uuid'] = userId;
+      console.log(recruiterPayload,"rec-payload")
+      const newRecruiter = await RecruiterRepo.create(recruiterPayload);
+      console.log(newRecruiter,"new-recruiter")
+      if(newRecruiter){
+        payload = baseRepo.addCreatedTimestamps(payload);
+        payload['recruiter_uuid'] = newRecruiter.uuid;
+        console.log('job-payload',payload)
+        let result = await knex.transaction(async (trx) => {
+          const rows = await trx("jobs").insert(payload).returning("*");
+          return rows[0];
+      });
+      return {
+        recruiter:newRecruiter,
+        job:result
+      };
+    }
+    }
+
+  } catch (error) {
+    throw error;
+  }
+};
+
+
 const getAllJobs = async (query) => {
   try {
-    const rows = knex("jobs").orderBy("created_at", "desc").where('deleted_at',null);
+    const rows = knex("jobs").orderBy("created_at", "desc").where('deleted_at', null);
     return rows;
   } catch (error) {
     throw error;
@@ -41,9 +96,9 @@ const remove = async (id) => {
   if (job.length === 0) {
     return { message: "Not found" };
   } else {
-      const where = { uuid: id };
-      await baseRepo.remove("jobs", where, "soft");
-      return { message: "success" };
+    const where = { uuid: id };
+    await baseRepo.remove("jobs", where, "soft");
+    return { message: "success" };
   }
 };
 
@@ -71,4 +126,5 @@ module.exports = {
   getAllPostedJobs,
   remove,
   update,
+  createWithRecruiter
 };
