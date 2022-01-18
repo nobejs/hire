@@ -10,7 +10,9 @@ const prepare = ({ reqQuery, reqBody, reqParams, req }) => {
     "job_description",
     "status",
     "recruiter_name",
-    "recruiter_description"
+    "recruiter_description",
+    "recruiter_type",
+    "currently_hiring"
   ]);
   payload["user_uuid"] = req.user;
   return payload;
