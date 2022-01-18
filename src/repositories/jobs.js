@@ -16,7 +16,9 @@ const create = async (payload) => {
 
 const getAllJobs = async (query) => {
   try {
-    const rows = knex("jobs").orderBy("created_at", "desc").where('deleted_at',null);
+    const rows = knex("jobs")
+      .orderBy("created_at", "desc")
+      .where("deleted_at", null);
     return rows;
   } catch (error) {
     throw error;
@@ -41,9 +43,9 @@ const remove = async (id) => {
   if (job.length === 0) {
     return { message: "Not found" };
   } else {
-      const where = { uuid: id };
-      await baseRepo.remove("jobs", where, "soft");
-      return { message: "success" };
+    const where = { uuid: id };
+    await baseRepo.remove("jobs", where, "soft");
+    return { message: "success" };
   }
 };
 
@@ -64,6 +66,36 @@ const update = async (id, payload) => {
   }
 };
 
+const searchJobs = async (payload) => {
+  try {
+    let {
+      location,
+      designation,
+      work_experience,
+      industry,
+      salary,
+      user_uuid,
+    } = payload;
+
+    const rows = await knex("jobs")
+      .whereRaw("job_description->>? = ?", ["location", location])
+      .where("title", designation);
+
+    // );
+    // const rows = knex("jobs")
+    //   .orderBy("created_at", "desc")
+    //   .where("location", location)
+    //   .where("designation", designation)
+    //   .where("work_experience", work_experience)
+    //   .where("industry", industry)
+    //   .where("salary", salary)
+    //   .where("deleted_at", null);
+    return rows;
+  } catch (error) {
+    throw error;
+  }
+};
+
 module.exports = {
   create,
   getAllJobs,
@@ -71,4 +103,5 @@ module.exports = {
   getAllPostedJobs,
   remove,
   update,
+  searchJobs,
 };

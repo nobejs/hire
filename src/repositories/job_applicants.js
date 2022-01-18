@@ -14,63 +14,41 @@ const create = async (payload) => {
   }
 };
 
-const getAllJobApplicants = async (query) => {
+const getJobApplicants = async (id) => {
   try {
-    if (query && query.tags && query.tags.length > 0) {
-      var arr = query.tags.split(",");
-      return await getJobApplicantsByTags(arr);
-    } else {
-      const rows = knex("job_applicants").orderBy("created_at", "desc");
-      return rows;
-    }
+    const foundedSeekersUuids = await getSeekersIdsForJob(id);
+
+    const data = await Promise.all(
+      foundedSeekersUuids.map(async ({ seeker_uuid }) => {
+        return await getSeeker(seeker_uuid);
+      })
+    );
+    console.log("data os", data);
+    return data;
   } catch (error) {
     throw error;
   }
 };
 
-const findByUuid = async (where = {}) => {
-  return await baseRepo.first("job_applicants", where);
-};
-
-const getAllPostedJobApplicants = async (user_uuid) => {
+const getSeeker = async (id) => {
   try {
-    const rows = knex("job_applicants").where("user_uuid", user_uuid);
-    return rows;
+    const seeker = await knex("seekers")
+      .orderBy("created_at", "desc")
+      .where("uuid", id)
+      .where("deleted_at", null);
+    return seeker[0];
   } catch (error) {
     throw error;
   }
 };
 
-const remove = async (id, user) => {
-  const query = await knex("job_applicants").where({ uuid: id });
-  if (query.length === 0) {
-    return { message: "doesn't exist" };
-  } else {
-    if (query[0].user_uuid !== user) {
-      return { message: "Not authorized" };
-    } else {
-      const where = { uuid: id };
-      //   await knex('applicants_tags').where({ query_uuid: where.uuid }).delete();
-      await baseRepo.remove("job_applicants", where, "hard");
-      //   await baseRepo.remove("job_applicants", where, "soft");
-      return { message: "success" };
-    }
-  }
-};
-
-const update = async (id, payload) => {
+const getSeekersIdsForJob = async (id) => {
   try {
-    await knex("applicants_tags").where({ uuid: id }).delete();
-    payload["updated_at"] = new Date().toISOString();
-    let result = await knex.transaction(async () => {
-      let rows = await knex("job_applicants")
-        .where({ uuid: id })
-        .update(payload)
-        .returning("*");
-
-      return rows[0];
-    });
-    return result;
+    return await knex("job_applicants")
+      .select("seeker_uuid")
+      .orderBy("created_at", "desc")
+      .where("job_uuid", id)
+      .where("deleted_at", null);
   } catch (error) {
     throw error;
   }
@@ -78,9 +56,5 @@ const update = async (id, payload) => {
 
 module.exports = {
   create,
-  getAllJobApplicants,
-  findByUuid,
-  getAllPostedJobApplicants,
-  remove,
-  update,
+  getJobApplicants,
 };

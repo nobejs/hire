@@ -3,7 +3,7 @@ const randomUser = requireUtil("randomUser");
 const knex = requireKnex();
 const httpServer = requireHttpServer();
 
-describe("Test API JobApplicants/CanCreateJobApplicant", () => {
+describe("Test API Jobs/CanSearchJobs", () => {
   beforeAll(async () => {
     contextClassRef.user = randomUser();
     contextClassRef.headers = {
