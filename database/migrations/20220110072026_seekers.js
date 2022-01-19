@@ -8,9 +8,9 @@ exports.up = async function (knex) {
       .defaultTo(knex.raw("uuid_generate_v4()"));
     table.string("user_uuid", 255).notNullable();
     table.string("name", 255).notNullable();
-    table.jsonb("seeker_description").nullable();
-    table.jsonb("open_to_work").nullable();
-    table.jsonb("job_preferences").nullable();
+    table.jsonb("seeker_description").notNullable();
+    table.jsonb("open_to_work").notNullable();
+    table.jsonb("job_preferences").notNullable();
     table.timestamps();
     table.date("deleted_at").nullable();
   });

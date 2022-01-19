@@ -12,18 +12,18 @@ describe("Test API Seekers/CanDeleteSeeker", () => {
     };
   });
 
-  it("dummy_story_which_will_pass", async () => {
+  it("user_can_delete_seeker_story_which_will_pass", async () => {
     let respondResult;
     try {
       const app = httpServer();
       const testQuery = await SeekersRepo.create({
         uuid: "e9d623ba-9507-4ae0-bf97-10b16370fec8",
         user_uuid: contextClassRef.user.user_uuid,
-        name: "Shubham Joshi",
+        name: "Amarendra Varma",
         seeker_description: {
           gender: "male",
-          age: 25,
-          experience: "4 years",
+          age: 24,
+          experience: "6 months",
           current_company: "Betalectic IT Solutions",
           designation_or_role: "Full stack developer",
           specialization_area: "Web Development",
@@ -54,11 +54,14 @@ describe("Test API Seekers/CanDeleteSeeker", () => {
           company_type: "start-up",
           company_employee_strenget: "50-100",
           current_salary: {
-            currency: {},
-            range: {},
+            currency: "INR",
+            range: {
+              from: "500000",
+              to: "700000",
+            },
           },
           note_for_recruiter: "",
-          notice_period: "10-20 days",
+          notice_period: "10 days",
         },
       });
 
