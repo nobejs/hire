@@ -66,13 +66,18 @@ const getAllPostedJobs = async (user_uuid) => {
 };
 
 const remove = async (id) => {
-  const job = await knex("jobs").where({ uuid: id });
-  if (job.length === 0) {
-    return { message: "Not found" };
-  } else {
-    const where = { uuid: id };
-    await baseRepo.remove("jobs", where, "soft");
-    return { message: "success" };
+  try{
+    const job = await knex("jobs").where({ uuid: id });
+    if (job.length === 0) {
+      return { message: "Not found" };
+    } else {
+      const where = { uuid: id };
+      await baseRepo.remove("jobs", where, "soft");
+      return { message: "success" };
+    }
+  }catch (error) {
+    console.log(error,"remove-errr")
+    throw error;
   }
 };
 
