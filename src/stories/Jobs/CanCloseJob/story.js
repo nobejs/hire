@@ -2,7 +2,6 @@ const JobsRepo = requireRepo("jobs");
 
 const prepare = ({ reqQuery, reqBody, reqParams, req }) => {
   try {
-    console.log(reqParams, "parpar")
     return reqParams;
   }
   catch (error) {

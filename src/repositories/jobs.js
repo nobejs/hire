@@ -53,7 +53,7 @@ const getAllJobs = async (query) => {
 };
 
 const findByUuid = async (where = {}) => {
-  return await baseRepo.first("jobs", where);
+  return await knex("jobs").where(where).first();
 };
 
 const getAllPostedJobs = async (user_uuid) => {
