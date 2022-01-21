@@ -1,4 +1,4 @@
-const ApplicantsRepo = requireRepo("applicants");
+const RecruiterRepo = requireRepo("recruiters");
 
 const prepare = ({ reqQuery, reqBody, reqParams, req }) => {
   return reqParams;
@@ -21,7 +21,7 @@ const authorize = async ({ prepareResult }) => {
 
 const handle = async ({ prepareResult, authorizeResult }) => {
   try {
-    return await ApplicantsRepo.findByUuid({
+    return await RecruiterRepo.findByUuid({
       uuid: prepareResult.uuid,
     });
   } catch (error) {

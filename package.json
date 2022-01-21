@@ -9,6 +9,7 @@
     "nobe:genuser": "node ./core/utils/randomUser",
     "nobe:version": "node ./core/version",
     "test": "jest --runInBand",
+    "test:github": "jest --runInBand",
     "serve": "ENVFILE=.env DEBUG=true nodemon server.js",
     "start": "node server.js",
     "nobe:update": "node ./update && yarn nobe:version",
@@ -16,12 +17,15 @@
     "db:migrate": "ENVFILE=.env knex migrate:latest",
     "db:rollback": "ENVFILE=.env knex migrate:rollback",
     "db:migration": "ENVFILE=.env knex migrate:make",
+    "db:seed": "ENVFILE=.env knex seed:make",
+    "db:seedRun":"ENVFILE=.env knex seed:run",
     "release": "gh release create",
     "bump": "npm version patch && node core/syncVersion.js && git commit -am 'Commit version.md' && git push origin master",
     "bump:minor": "npm version minor",
     "bump:pre": "npm version prerelease --preid=alpha"
   },
   "devDependencies": {
+    "@faker-js/faker": "^6.0.0-alpha.3",
     "nodemon": "^2.0.13"
   },
   "dependencies": {

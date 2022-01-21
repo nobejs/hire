@@ -7,7 +7,7 @@ const truncateAllTables = requireFunction("truncateAllTables");
 
 describe("Test API CanCloseJob", () => {
   beforeAll(async () => {
-    await truncateAllTables();
+    //await truncateAllTables();
     contextClassRef.user = randomUser();
     contextClassRef.headers = {
       Authorization: `Bearer ${contextClassRef.user.token}`, // An authenticated user is making the api call
@@ -37,9 +37,12 @@ describe("Test API CanCloseJob", () => {
       respondResult = error;
     }
 
+    console.log(respondResult.statusCode,"test")
+
     expect(respondResult.statusCode).toBe(200);
     expect(respondResult.json()).toMatchObject({
       message: "success"
     });
+    expect(1).toBe(1);
   });
 });

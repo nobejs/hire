@@ -31,7 +31,10 @@ describe("Test Handler UserCanPostJob", () => {
             ],
             salary_offer_band: {
                 currency: "USD",
-                range: "100000$-200000$"
+                range: {
+                  from: 500000,
+                  to: 700000  
+                }
             },
             company_size: 20000,
             industry: [
@@ -65,7 +68,10 @@ describe("Test Handler UserCanPostJob", () => {
       ],
       salary_offer_band: {
           currency: "USD",
-          range: "100000$-200000$"
+          range: {
+            from: 500000,
+            to: 700000  
+          }
       },
       company_size: 20000,
       industry: [

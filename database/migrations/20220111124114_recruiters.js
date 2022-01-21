@@ -11,8 +11,9 @@ exports.up = async function (knex) {
     table.string("recruiter_type", 255).nullable();
     table.jsonb("recruiter_description").nullable();
     table.boolean("currently_hiring", 255).nullable();
-    table.timestamps();
-    table.date("deleted_at").nullable();
+    table.datetime("created_at");
+    table.datetime("updated_at");
+    table.datetime("deleted_at");
   });
 };
 
