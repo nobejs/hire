@@ -10,15 +10,15 @@ const truncateAllTables = requireFunction("truncateAllTables");
 describe("Test Handler Seekers/CanGetJobApplicantsForAJob", () => {
   beforeEach(async () => {
     await truncateAllTables();
-  });
-  it("user_can_get_job_applicants_for_a_job", async () => {
-    let result = {};
     contextClassRef.user = randomUser();
     contextClassRef.headers = {
       Authorization: `Bearer ${contextClassRef.user.token}`,
     };
-    const testQuery = await JobsRepo.create({
-      uuid: "e5da9e57-0f91-4ed0-8a92-c77576b7f061",
+  });
+  it("user_can_get_job_applicants_for_a_job", async () => {
+    let result = {};
+    const jobsQuery = await JobsRepo.create({
+      // uuid: "e5da9e57-0f91-4ed0-8a92-c77576b7f061",
       recruiter_uuid: "ba5c3710-a369-432f-af22-70443fa291e2",
       employer_id: "bdff83ab-acdb-4366-83b1-1f6c432f20e8",
       title: "Internal Marketing Manager",
@@ -48,8 +48,8 @@ describe("Test Handler Seekers/CanGetJobApplicantsForAJob", () => {
       status: "open",
     });
 
-    await SeekersRepo.create({
-      uuid: "ba5c3710-a369-432f-af22-71443fa291e2",
+    const seekersQuery = await SeekersRepo.create({
+      // uuid: "ba5c3710-a369-432f-af22-71443fa291e2",
       user_uuid: contextClassRef.user.user_uuid,
       name: "Amarendra Varma",
       seeker_description: {
@@ -98,8 +98,8 @@ describe("Test Handler Seekers/CanGetJobApplicantsForAJob", () => {
     });
 
     await JobApplicantsRepo.create({
-      job_uuid: testQuery.uuid,
-      seeker_uuid: "ba5c3710-a369-432f-af22-71443fa291e2",
+      job_uuid: jobsQuery.uuid,
+      seeker_uuid: seekersQuery.uuid,
       status: "Applicant Applied",
       meta: {
         applicant_details: {
@@ -116,7 +116,7 @@ describe("Test Handler Seekers/CanGetJobApplicantsForAJob", () => {
           title: "Internal Marketing Manager",
           company_name: "Feeney, Kuvalis and Leffler",
           location: "Pfannerstillborough",
-          area_of_specialization: "SAP",
+          area_of_specialization: "Mobile app development",
           contact_details: {
             email: "Cleta.Gutkowski11@yahoo.com",
           },
@@ -124,15 +124,16 @@ describe("Test Handler Seekers/CanGetJobApplicantsForAJob", () => {
       },
     });
     try {
+      // console.log("seekersQuery.uuid", seekersQuery.uuid);
       result = await testStrategy("Seekers/CanGetJobApplicantsForAJob", {
         prepareResult: {
-          reqParams: { uuid: testQuery.uuid },
+          reqParams: { uuid: jobsQuery.uuid },
         },
       });
     } catch (error) {
       debugLogger(error);
     }
-    console.log("result", result);
+    // console.log("result", result);
     // const { respondResult } = result;
     // expect(respondResult).toEqual(
     //   expect.arrayContaining([

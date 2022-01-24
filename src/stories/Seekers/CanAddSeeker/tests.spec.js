@@ -13,7 +13,6 @@ describe("Test Handler Seekers/CanAddSeeker", () => {
       };
       result = await testStrategy("Seekers/CanAddSeeker", {
         prepareResult: {
-          uuid: "e9d623ba-9507-4ae0-bf97-10b16370fec8",
           user_uuid: contextClassRef.user.user_uuid,
           name: "Amarendra Varma",
           seeker_description: {

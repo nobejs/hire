@@ -16,14 +16,16 @@ const create = async (payload) => {
 
 const getJobApplicants = async (id) => {
   try {
-    const foundedSeekersUuids = await getSeekersIdsForJob(id);
+    if (id) {
+      const foundedSeekersUuids = await getSeekersIdsForJob(id);
 
-    const data = await Promise.all(
-      foundedSeekersUuids.map(async ({ seeker_uuid }) => {
-        return await getSeeker(seeker_uuid);
-      })
-    );
-    return data;
+      const data = await Promise.all(
+        foundedSeekersUuids.map(async ({ seeker_uuid }) => {
+          return await getSeeker(seeker_uuid);
+        })
+      );
+      return data;
+    }
   } catch (error) {
     throw error;
   }

@@ -21,8 +21,8 @@ describe("Test API Seekers/CanGetJobApplicantsForAJob", () => {
     try {
       const app = httpServer();
 
-      const testQuery = await JobsRepo.create({
-        uuid: "e5da9e57-0f91-4ed0-8a92-c77576b7f061",
+      const jobsQuery = await JobsRepo.create({
+        // uuid: "e5da9e57-0f91-4ed0-8a92-c77576b7f061",
         recruiter_uuid: "ba5c3710-a369-432f-af22-70443fa291e2",
         employer_id: "bdff83ab-acdb-4366-83b1-1f6c432f20e8",
         title: "Internal Marketing Manager",
@@ -52,8 +52,8 @@ describe("Test API Seekers/CanGetJobApplicantsForAJob", () => {
         status: "open",
       });
 
-      await SeekersRepo.create({
-        uuid: "ba5c3710-a369-432f-af22-71443fa291e2",
+      const seekersQuery = await SeekersRepo.create({
+        // uuid: "ba5c3710-a369-432f-af22-71443fa291e2",
         user_uuid: contextClassRef.user.user_uuid,
         name: "Amarendra Varma",
         seeker_description: {
@@ -102,27 +102,27 @@ describe("Test API Seekers/CanGetJobApplicantsForAJob", () => {
       });
 
       await JobApplicantsRepo.create({
-        job_uuid: "e5da9e57-0f91-4ed0-8a92-c77576b7f061",
-        seeker_uuid: "ba5c3710-a369-432f-af22-71443fa291e2",
+        job_uuid: jobsQuery.uuid,
+        seeker_uuid: seekersQuery.uuid,
         status: "Applicant Applied",
         meta: {
           applicant_details: {
-            name: "Giridhar Varma",
+            name: "Amarendra Varma",
             designation: "Full stack developer",
             work_experience: "2 years",
             area_of_specialization: "web development",
             contact: {
-              phone: "9932211245",
-              email: "giridharvarma@gmail.com",
+              phone: "9899889990",
+              email: "shubham@betalectic.com",
             },
           },
           job_details: {
-            title: "Full stack developer",
-            company_name: "betalectic IT solutions",
-            location: "Hyderabad",
+            title: "Internal Marketing Manager",
+            company_name: "Feeney, Kuvalis and Leffler",
+            location: "Pfannerstillborough",
             area_of_specialization: "Mobile app development",
             contact_details: {
-              email: "contact@betalectic.com",
+              email: "Cleta.Gutkowski11@yahoo.com",
             },
           },
         },
@@ -130,7 +130,7 @@ describe("Test API Seekers/CanGetJobApplicantsForAJob", () => {
 
       respondResult = await app.inject({
         method: "GET",
-        url: `/seekers/jobs/${testQuery.uuid}`,
+        url: `/seekers/jobs/${jobsQuery.uuid}`,
         headers: contextClassRef.headers,
       });
     } catch (error) {
@@ -141,7 +141,7 @@ describe("Test API Seekers/CanGetJobApplicantsForAJob", () => {
     expect(respondResult.json()).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
-          uuid: "ba5c3710-a369-432f-af22-71443fa291e2",
+          uuid: expect.any(String),
           user_uuid: contextClassRef.user.user_uuid,
           name: "Amarendra Varma",
           seeker_description: {
