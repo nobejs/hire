@@ -66,7 +66,7 @@ const getAllPostedJobs = async (user_uuid) => {
 };
 
 const remove = async (id) => {
-  try{
+  try {
     const job = await knex("jobs").where({ uuid: id });
     if (job.length === 0) {
       return { message: "Not found" };
@@ -75,8 +75,8 @@ const remove = async (id) => {
       await baseRepo.remove("jobs", where, "soft");
       return { message: "success" };
     }
-  }catch (error) {
-    console.log(error,"remove-errr")
+  } catch (error) {
+    console.log(error, "remove-errr")
     throw error;
   }
 };
@@ -127,6 +127,31 @@ const createNewRecruiterAndJob = async (payload, jobPayload) => {
   }
 }
 
+const getRecruiterStories = async (data) => {
+  const { user, query } = data;
+  let recruiter = await knex('recruiters').where({ user_uuid: user }).first();
+  if (recruiter && recruiter.uuid) {
+    const recruiterId = recruiter.uuid;
+    if (query && query.status && query.status.length > 0) {
+      const rows = knex("jobs").where(
+        {
+          "recruiter_uuid": recruiterId,
+          "status":query.status
+        });
+
+        return rows;
+    }else{
+      const rows = knex("jobs").where(
+        {
+          "recruiter_uuid": recruiterId
+        });
+        return rows;
+    }
+  }else{
+    return {message: "recruiter not found"}
+  }
+}
+
 module.exports = {
   create,
   getAllJobs,
@@ -134,5 +159,6 @@ module.exports = {
   getAllPostedJobs,
   remove,
   update,
-  createWithRecruiter
+  createWithRecruiter,
+  getRecruiterStories
 };

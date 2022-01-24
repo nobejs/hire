@@ -1,5 +1,4 @@
 const faker = require('@faker-js/faker');
-const { async } = require('validate.js');
 
 const createFakeJobs = () => ({
   recruiter_uuid: faker.datatype.uuid(),
