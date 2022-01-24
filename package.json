@@ -10,7 +10,7 @@
     "nobe:version": "node ./core/version",
     "test": "jest --runInBand",
     "test:github": "jest --runInBand",
-    "serve": "SET ENVFILE=.env&& nodemon server.js",
+    "serve": "ENVFILE=.env DEBUG=true nodemon server.js",
     "start": "node server.js",
     "nobe:update": "node ./update && yarn nobe:version",
     "db": "knex",
@@ -22,7 +22,7 @@
     "release": "gh release create",
     "bump": "npm version patch && node core/syncVersion.js && git commit -am 'Commit version.md' && git push origin master",
     "bump:minor": "npm version minor",
-    "bump:pre": "npm version prerelease --preid=alpha  --force"
+    "bump:pre": "npm version prerelease --preid=alpha"
   },
   "devDependencies": {
     "@faker-js/faker": "^6.0.0-alpha.3",
