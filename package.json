@@ -1,6 +1,6 @@
 {
   "name": "nobejs",
-  "version": "0.1.1-alpha.2",
+  "version": "0.1.1-alpha.3",
   "main": "index.js",
   "author": "Rajiv Seelam",
   "license": "MIT",
@@ -10,7 +10,7 @@
     "nobe:version": "node ./core/version",
     "test": "jest --runInBand",
     "test:github": "jest --runInBand",
-    "serve": "ENVFILE=.env DEBUG=true nodemon server.js",
+    "serve": "SET ENVFILE=.env&& nodemon server.js",
     "start": "node server.js",
     "nobe:update": "node ./update && yarn nobe:version",
     "db": "knex",
@@ -22,7 +22,7 @@
     "release": "gh release create",
     "bump": "npm version patch && node core/syncVersion.js && git commit -am 'Commit version.md' && git push origin master",
     "bump:minor": "npm version minor",
-    "bump:pre": "npm version prerelease --preid=alpha"
+    "bump:pre": "npm version prerelease --preid=alpha  --force"
   },
   "devDependencies": {
     "@faker-js/faker": "^6.0.0-alpha.3",
