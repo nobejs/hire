@@ -88,7 +88,7 @@ describe("Test API Seekers/CanGetJobApplicantsForAJob", () => {
           salary_preference: {},
           industry: "",
           company_type: "start-up",
-          company_employee_strenget: "50-100",
+          company_employee_strength: "50-100",
           current_salary: {
             currency: "INR",
             range: {
@@ -142,7 +142,7 @@ describe("Test API Seekers/CanGetJobApplicantsForAJob", () => {
       expect.arrayContaining([
         expect.objectContaining({
           uuid: expect.any(String),
-          user_uuid: contextClassRef.user.user_uuid,
+          user_uuid: expect.any(String),
           name: "Amarendra Varma",
           seeker_description: {
             gender: "male",
@@ -179,7 +179,7 @@ describe("Test API Seekers/CanGetJobApplicantsForAJob", () => {
             salary_preference: {},
             industry: "",
             company_type: "start-up",
-            company_employee_strenget: "50-100",
+            company_employee_strength: "50-100",
             current_salary: {
               currency: "INR",
               range: {
