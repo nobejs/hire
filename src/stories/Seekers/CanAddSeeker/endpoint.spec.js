@@ -17,7 +17,6 @@ describe("Test API Seekers/CanAddSeeker", () => {
       const app = httpServer();
 
       const payload = {
-        uuid: "e9d623ba-9507-4ae0-bf97-10b16370fec8",
         user_uuid: contextClassRef.user.user_uuid,
         name: "Amarendra Varma",
         seeker_description: {

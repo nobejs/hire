@@ -1,16 +1,11 @@
+const JobApplicants = requireRepo("job_applicants");
+
 const prepare = ({ reqQuery, reqBody, reqParams, req }) => {
-  return {};
+  return reqParams;
 };
 
 const authorize = async ({ prepareResult }) => {
   try {
-    if (0) {
-      throw {
-        statusCode: 401,
-        message: "Unauthorized",
-      };
-    }
-
     return true;
   } catch (error) {
     throw error;
@@ -19,7 +14,7 @@ const authorize = async ({ prepareResult }) => {
 
 const handle = async ({ prepareResult, authorizeResult }) => {
   try {
-    return {};
+    return await JobApplicants.getJobApplicants(prepareResult.uuid);
   } catch (error) {
     throw error;
   }
