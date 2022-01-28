@@ -54,10 +54,99 @@ const update = async (id, payload) => {
   }
 };
 
+const searchSeekers = async (payload) => {
+  let where = {};
+
+  try {
+    let dataBuilder = knex('seekers')
+      .where({
+        ...where,
+      })
+    const per_page = payload.per_page || 10;
+    const page = payload.page || 1;
+    const sort_column = payload.sort_column || "updated_at";
+    const sort_order = payload.sort_order || "desc";
+
+    const searchArr = Object.keys(payload);
+
+    for (let i = 0; i < searchArr.length; i++) {
+      if (payload[searchArr[i]].type === 'equals') {
+        let path = makeOrder(searchArr[i]);
+        dataBuilder = dataBuilder.whereRaw(`${path} = ?`, payload[searchArr[i]].value);
+      }
+      else if (payload[searchArr[i]].type == 'like') {
+        let path = makeOrder(searchArr[i]);
+        dataBuilder = dataBuilder.whereRaw(`${path} ILIKE ?`, `%${payload[searchArr[i]].value}%`)
+      }
+      else if (payload[searchArr[i]].type === '>=') {
+        let path = makeOrder(searchArr[i]);
+        dataBuilder = dataBuilder.whereRaw(`${path} >= ?`, `${payload[searchArr[i]].value}`);
+      }
+      else if (payload[searchArr[i]].type === '<=') {
+        let path = makeOrder(searchArr[i]);
+        dataBuilder = dataBuilder.whereRaw(`${path} <= ?`, `${payload[searchArr[i]].value}`);
+      }
+      else if (payload[searchArr[i]].type === 'array') {
+        const data = {}
+        data[searchArr[i]] = payload[searchArr[i]].value;
+        dataBuilder = dataBuilder.where(knex.raw(
+          `?? @> ?::jsonb`,
+          [
+            'seeker_description',
+            JSON.stringify(data)
+          ]
+        ))
+      } else {
+        if (payload[searchArr[i]].type) {
+          return { message: "type is invalid" }
+        }
+      }
+    }
+    let all = await dataBuilder
+    let total = all.length;
+    let rows = await dataBuilder
+      .orderBy(sort_column, sort_order)
+      .limit(per_page)
+      .offset((page - 1) * per_page);
+
+    let sql = await dataBuilder
+      .orderBy(sort_column, sort_order)
+      .limit(per_page)
+      .offset((page - 1) * per_page)
+      .toString();
+
+    return { data: rows, meta: { page, per_page, total,sql: sql.replace("/"," ") } };
+
+  } catch (error) {
+    throw error;
+  }
+}
+
+const makeOrder = (string) => {
+  const pathArray = string.split('.')
+
+  if (pathArray.length === 1) {
+    return `seeker_description->>'${pathArray[0]}'`;
+  }
+  else {
+    let result = 'seeker_description'
+    for (let i = 0; i < pathArray.length; i++) {
+      if (i >= 0 && i !== pathArray.length - 1) {
+        result = result + `->'${pathArray[i]}'`
+      }
+      else {
+        result = result + `->>'${pathArray[i]}'`
+      }
+    }
+    return result;
+  }
+}
+
 module.exports = {
   create,
   getAllSeekers,
   findByUuid,
   remove,
   update,
+  searchSeekers
 };
