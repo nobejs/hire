@@ -6,6 +6,8 @@ const createFakeJobs = () => ({
   employer_id: faker.datatype.uuid(),
   status: "open",
   job_description: {
+    status: "open",
+    job_query: faker.name.jobTitle(),
     company_name: faker.company.companyName(),
     location: {
       country: faker.address.county(),
