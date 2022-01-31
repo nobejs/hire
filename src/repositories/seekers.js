@@ -96,7 +96,22 @@ const searchSeekers = async (payload) => {
             JSON.stringify(data)
           ]
         ))
-      } else {
+      }
+      else if (payload[searchArr[i]].type === 'arrayOr') {
+        let path = makeOrder(searchArr[i]);
+        const valueArr = payload[searchArr[i]].value;
+        let str =''
+        for(let j=0;j<valueArr.length;j++){
+          if (j >= 0 && j !== valueArr.length - 1) {
+            str=str+ `${path} = '${valueArr[j]}' or `;
+          }
+          else {
+            str=str+ `${path} = '${valueArr[j]}'`;
+          }
+        }
+        dataBuilder = dataBuilder.whereRaw(str);
+      } 
+      else {
         if (payload[searchArr[i]].type) {
           return { message: "type is invalid" }
         }
