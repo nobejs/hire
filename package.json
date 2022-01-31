@@ -14,15 +14,15 @@
     "start": "node server.js",
     "nobe:update": "node ./update && yarn nobe:version",
     "db": "knex",
-    "db:migrate": "SET ENVFILE=.env&& knex migrate:latest",
+    "db:migrate": "ENVFILE=.env knex migrate:latest",
     "db:rollback": "ENVFILE=.env knex migrate:rollback",
     "db:migration": "ENVFILE=.env knex migrate:make",
-    "db:seed": "SET ENVFILE=.env&& knex seed:make",
-    "db:seedRun": "SET ENVFILE=.env&& knex seed:run",
+    "db:seed": "ENVFILE=.env knex seed:make",
+    "db:seedRun": "ENVFILE=.env knex seed:run",
     "release": "gh release create",
     "bump": "npm version patch && node core/syncVersion.js && git commit -am 'Commit version.md' && git push origin master",
     "bump:minor": "npm version minor",
-    "bump:pre": "npm version prerelease --preid=alpha --force"
+    "bump:pre": "npm version prerelease --preid=alpha "
   },
   "devDependencies": {
     "@faker-js/faker": "^6.0.0-alpha.3",
