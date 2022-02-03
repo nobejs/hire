@@ -4,11 +4,17 @@ const baseRepo = requireUtil("baseRepo");
 const create = async (payload) => {
   try {
     payload = baseRepo.addCreatedTimestamps(payload);
-    let result = await knex.transaction(async (trx) => {
-      const rows = await trx("seekers").insert(payload).returning("*");
-      return rows[0];
-    });
-    return result;
+    let seeker = await knex('seekers').where({ user_uuid: payload.user_uuid }).first();
+    if (seeker) {
+      return { message: "Already Exist" }
+    }
+    else {
+      let result = await knex.transaction(async (trx) => {
+        const rows = await trx("seekers").insert(payload).returning("*");
+        return rows[0];
+      });
+      return result;
+    }
   } catch (error) {
     throw error;
   }
@@ -16,7 +22,7 @@ const create = async (payload) => {
 
 const getAllSeekers = async (query) => {
   try {
-    return await knex("seekers").orderBy("created_at", "desc").where('deleted_at',null);
+    return await knex("seekers").orderBy("created_at", "desc").where('deleted_at', null);
   } catch (error) {
     throw error;
   }
@@ -100,17 +106,17 @@ const searchSeekers = async (payload) => {
       else if (payload[searchArr[i]].type === 'arrayOr') {
         let path = makeOrder(searchArr[i]);
         const valueArr = payload[searchArr[i]].value;
-        let str =''
-        for(let j=0;j<valueArr.length;j++){
+        let str = ''
+        for (let j = 0; j < valueArr.length; j++) {
           if (j >= 0 && j !== valueArr.length - 1) {
-            str=str+ `${path} = '${valueArr[j]}' or `;
+            str = str + `${path} = '${valueArr[j]}' or `;
           }
           else {
-            str=str+ `${path} = '${valueArr[j]}'`;
+            str = str + `${path} = '${valueArr[j]}'`;
           }
         }
         dataBuilder = dataBuilder.whereRaw(str);
-      } 
+      }
       else {
         if (payload[searchArr[i]].type) {
           return { message: "type is invalid" }
@@ -130,7 +136,7 @@ const searchSeekers = async (payload) => {
       .offset((page - 1) * per_page)
       .toString();
 
-    return { data: rows, meta: { page, per_page, total,sql: sql.replace("/"," ") } };
+    return { data: rows, meta: { page, per_page, total, sql: sql.replace("/", " ") } };
 
   } catch (error) {
     throw error;
@@ -157,11 +163,25 @@ const makeOrder = (string) => {
   }
 }
 
+const getSeekerByUserId = async(id)=>{
+  try{
+    const seeker = await knex('seekers').where({ user_uuid: id }).first();
+    if(seeker){
+      return seeker;
+    }else{
+      return {message: "Seeker doesn't exist"}
+    }
+  }catch (error) {
+    throw error;
+  }
+}
+
 module.exports = {
   create,
   getAllSeekers,
   findByUuid,
   remove,
   update,
-  searchSeekers
+  searchSeekers,
+  getSeekerByUserId
 };

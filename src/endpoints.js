@@ -24,6 +24,7 @@ module.exports = (app) => {
         ["get", "/seekers/:uuid", "Seekers/CanViewSeeker"],
         ["delete", "/seekers/:uuid", "Seekers/CanDeleteSeeker"],
         ["post", "/search-seekers", "Seekers/CanSearchSeekers"],
+        ["get", "/seekers/user", "Seekers/CanGetLoggedInSeeker"],
         ["post", "/recruiters", "Recruiters/CanCreateRecruiter"],
         ["get", "/recruiters", "Recruiters/CanViewAllRecruiters"],
         ["get", "/recruiters/:uuid", "Recruiters/CanViewRecruiter"],
