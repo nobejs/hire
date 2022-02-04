@@ -198,18 +198,18 @@ const searchJob = async (job_payload) => {
       else if (job_payload[searchArr[i]].type === 'arrayOr') {
         let path = makeOrder(searchArr[i]);
         const valueArr = job_payload[searchArr[i]].value;
-        let str =''
-        for(let j=0;j<valueArr.length;j++){
+        let str = ''
+        for (let j = 0; j < valueArr.length; j++) {
           if (j >= 0 && j !== valueArr.length - 1) {
-            str=str+ `${path} = '${valueArr[j]}' or `;
+            str = str + `${path} = '${valueArr[j]}' or `;
           }
           else {
-            str=str+ `${path} = '${valueArr[j]}'`;
+            str = str + `${path} = '${valueArr[j]}'`;
           }
         }
         dataBuilder = dataBuilder.whereRaw(str);
-      } 
-       else {
+      }
+      else {
         if (job_payload[searchArr[i]].type) {
           return { message: "type is invalid" }
         }
@@ -255,6 +255,35 @@ const makeOrder = (string) => {
   }
 }
 
+const getAppliedJobs = async (id) => {
+  try {
+    const seeker = await knex('seekers').where({ user_uuid: id }).first();
+    if (seeker) {
+      let jobIds = await knex.select('job_uuid').from('job_applicants').where({ seeker_uuid: seeker.uuid });
+      jobIds = jobIds.map((jobId) => {
+        return jobId.job_uuid;
+      });
+      const jobs = await getJobsByIds(jobIds);
+      return jobs;
+    } else {
+      return { message: "Seeker doesn't exist" }
+    }
+
+  } catch (error) {
+    throw error;
+  }
+
+}
+
+const getJobsByIds = async (ids) => {
+  const rows = await knex('jobs').where((builder) =>
+    builder.whereIn('uuid', ids)
+  );
+  rows.promise = rows.then;
+  rows.then = undefined;
+  return rows;
+}
+
 module.exports = {
   create,
   getAllJobs,
@@ -264,5 +293,6 @@ module.exports = {
   update,
   createWithRecruiter,
   getRecruiterStories,
-  searchJob
+  searchJob,
+  getAppliedJobs
 };

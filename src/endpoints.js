@@ -17,6 +17,7 @@ module.exports = (app) => {
         ["delete", "/jobs/:uuid", "Jobs/CanCloseJob"],
         ["post", "/jobs-with-recruiter", "Jobs/CanPostJobWithRecruiter"],
         ["get", "/jobs/recruiter", "Jobs/CanViewRecruiterJobs"],
+        ["get", "/jobs/seeker", "Jobs/CanViewAppliedJobs"],
         ["post", "/seekers", "Seekers/CanAddSeeker"],
         ["post", "/search-jobs", "Jobs/CanSearchJobs"],
         ["put", "/seekers/:uuid", "Seekers/CanUpdateSeeker"],
